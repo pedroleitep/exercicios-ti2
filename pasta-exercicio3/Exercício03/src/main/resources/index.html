@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Carros</title>
+    <script>
+        async function cadastrarCarro(event) {
+            event.preventDefault();
+
+            let modelo = document.getElementById("modelo").value;
+            let marca = document.getElementById("marca").value;
+            let ano = document.getElementById("ano").value;
+            let preco = document.getElementById("preco").value;
+
+            let response = await fetch("http://localhost:6789/carro", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ modelo, marca, ano, preco })
+            });
+
+            if (response.ok) {
+                alert("Carro cadastrado com sucesso!");
+                document.getElementById("carroForm").reset();
+            } else {
+                alert("Erro ao cadastrar carro.");
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>Cadastro de Carros</h2>
+    <form id="carroForm" onsubmit="cadastrarCarro(event)">
+        <label>Modelo:</label>
+        <input type="text" id="modelo" required><br>
+
+        <label>Marca:</label>
+        <input type="text" id="marca" required><br>
+
+        <label>Ano:</label>
+        <input type="number" id="ano" required><br>
+
+        <label>Preço:</label>
+        <input type="number" id="preco" step="0.01" required><br>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+</body>
+</html>
